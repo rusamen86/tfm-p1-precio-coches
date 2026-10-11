@@ -14,3 +14,6 @@ data/processed/*
 !data/processed/.gitkeep
 models/*
 !models/.gitkeep
+
+# Instrucciones locales para Cursor
+AGENTS.md
