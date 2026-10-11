@@ -135,7 +135,7 @@ tfm-p1-precio-coches/
 ├── data/
 │   ├── raw/          # Datos originales, sin tocar (no se suben)
 │   └── processed/    # Datos limpios listos para modelar (no se suben)
-├── notebooks/        # Notebooks de trabajo: 01_eda, 02_modelo...
+├── notebooks/        # Un cuaderno por fase (ver hoja de ruta)
 ├── src/              # Código reutilizable (carga, preprocesado...)
 ├── scripts/          # Scripts ejecutables (pipeline completo)
 ├── models/           # Modelos entrenados (no se suben)
@@ -143,6 +143,21 @@ tfm-p1-precio-coches/
 ├── requirements.txt  # Dependencias
 └── README.md
 ```
+
+### 📓 Hoja de ruta de cuadernos
+
+Cada cuaderno hace **solo su fase**: lee lo que deja el anterior y guarda lo que necesita el siguiente.
+
+| # | Cuaderno | Qué hace | Lee | Guarda |
+|---|---|---|---|---|
+| 1 | `01_eda.ipynb` | Explora y anota decisiones (no modifica datos) | `data/raw/` | — |
+| 2 | `02_limpieza.ipynb` | Aplica las decisiones del EDA (columnas, nulos) | `data/raw/` | `data/processed/coches_limpio.csv` |
+| 3 | `03_preprocesado.ipynb` | Atípicos, encoding, train/test, escalado (solo para la lineal) | `coches_limpio.csv` | train/test en `data/processed/` |
+| 4 | `04_modelado.ipynb` | Entrena regresión lineal, Random Forest y XGBoost | train/test | `models/` |
+| 5 | `05_evaluacion.ipynb` | Compara MAE, MAPE y RMSE y elige el mejor | `models/` + test | `outputs/` |
+| 6 | `06_explicabilidad_negocio.ipynb` | SHAP, hipótesis, preguntas 11-13, paso a producción | mejor modelo + test | `outputs/` |
+
+> No usamos PCA: hay pocas variables y queremos un modelo explicable. El escalado solo se aplica a la regresión lineal.
 
 ---
 
