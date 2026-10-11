@@ -40,12 +40,15 @@ oferta = precio_estimado × (1 − margen) − costes_de_preparación
 
 | Característica | Detalle |
 |---|---|
-| Origen | Anuncios de **coches.net** |
+| Origen | Muestra gratuita de **DataMarket**: anuncios de una plataforma española de coches de segunda mano (web de origen anonimizada) |
 | Tamaño | **50.000** anuncios · **21** columnas |
-| Periodo | Anuncios de diciembre de 2020, capturados el 15-01-2021 |
+| Fechas de publicación | Del 09-05-2017 al 15-01-2021 |
+| Fecha de captura | 15-01-2021 |
 | Variable objetivo | `price` (€) |
-| Descarga | https://raw.githubusercontent.com/Data-Market/vehiculos-de-segunda-mano/main/coches-de-segunda-mano-sample.csv |
-| Fuente original | TODO: pendiente de enlazar la página del dataset |
+| Descarga (CSV) | https://raw.githubusercontent.com/Data-Market/vehiculos-de-segunda-mano/main/coches-de-segunda-mano-sample.csv |
+| Repositorio y documentación | https://github.com/Data-Market/vehiculos-de-segunda-mano |
+| Dataset completo (de pago) | https://datamarket.es/#coches-de-segunda-mano-dataset |
+| Licencia | Muestra de evaluación y uso gratuito (el repositorio no incluye licencia formal) |
 
 ⚠️ **Limitación:** son **precios de anuncio**, no precios de venta real.
 
