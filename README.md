@@ -182,6 +182,28 @@ jupyter notebook
 
 ---
 
+## 🖼️ Visualizaciones del EDA
+
+Figuras generadas en notebooks/01_eda.ipynb (se guardan con plt.savefig en outputs/figures/).
+
+**Distribución de las variables numéricas:** histogramas de precio, kilómetros, potencia y fotos; todas con cola a la derecha.
+
+![Distribución de las variables numéricas](outputs/figures/01_distribucion_variables_numericas.png)
+
+**Diagramas de caja:** valores que se alejan del resto en precio, kilómetros, potencia y fotos.
+
+![Diagramas de caja](outputs/figures/02_boxplot_variables_numericas.png)
+
+**Logaritmo del precio:** en escala logarítmica el precio se parece mucho más a una campana.
+
+![Distribución del logaritmo del precio](outputs/figures/03_distribucion_log_precio.png)
+
+**Mediana del precio por año:** el precio baja de forma regular con la antigüedad (≈ 11-12 % por año).
+
+![Mediana del precio por año de fabricación](outputs/figures/04_mediana_precio_por_anio.png)
+
+---
+
 ## 📈 Resultados
 
 *Pendiente.*
