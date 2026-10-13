@@ -72,7 +72,7 @@ oferta = precio_estimado × (1 − margen) − costes_de_preparación
 1. ¿Cómo se distribuye el precio y qué valores atípicos hay?
 2. ¿Cuánto se deprecia un coche por cada año de antigüedad?
 3. ¿Cuánto baja el precio por cada 10.000 km?
-4. ¿Qué marcas mantienen mejor su valor?
+4. ¿Qué marcas conservan mejor su valor frente a otras?
 5. ¿Cómo influyen el combustible y el tipo de cambio?
 6. ¿Influye la provincia?
 7. ¿Hay diferencias entre vendedor profesional y particular?
@@ -203,6 +203,10 @@ Figuras generadas en notebooks/01_eda.ipynb (se guardan con plt.savefig en outpu
 **Mediana del precio por año:** el precio baja de forma regular con la antigüedad (≈ 11-12 % por año).
 
 ![Mediana del precio por año de fabricación](outputs/figures/04_mediana_precio_por_anio.png)
+
+**Mediana del precio por tramo de kilómetros (Pregunta 3):** el precio baja de forma regular con los kilómetros (≈ 656 € cada 10.000 km).
+
+![Mediana del precio por tramo de 10.000 km](outputs/figures/05_mediana_precio_por_kms.png)
 
 **Valor retenido por marca (Pregunta 4):** mediana de los coches de 2013-2015 frente a la de 2018-2020; Fiat, Audi y Volkswagen son las que mejor mantienen su valor.
 
