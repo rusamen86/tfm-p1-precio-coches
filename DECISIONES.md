@@ -63,6 +63,10 @@ Diario de las decisiones tomadas en el proyecto. Cada entrada recoge **qué se d
 
 - **Eliminar los coches sin potencia y sin ningún coche de la misma marca y modelo** (unos 108 antes de los cortes, ≈ 0,2 %), en lugar de rellenarlos con la media. Motivo: la media daría potencias que no existen y mezclaría segmentos distintos. El número real se contará tras aplicar los cortes.
 
+- **Nuevo cuaderno 01b_preguntas_eda.** Las preguntas e hipótesis salen de 01_eda a un cuaderno propio. Motivo: 01_eda se queda con la revisión de los datos y 01b con las preguntas 1-7 y la primera validación de H1-H3, así cada cuaderno es más corto y fácil de seguir.
+- **La comprobación de gemelos de potencia pasa a 02_limpieza.** Motivo: es la base del tratamiento de los nulos de power (moda de marca + modelo y eliminar los que no tienen gemelo), que se aplica en la limpieza.
+- **Kilómetros (Pregunta 3): cada 10.000 km restan unos 656 € de mediana** (≈ 2,7 % del precio del primer tramo), con la bajada más fuerte en los primeros 10.000 km. Kilómetros y año están muy relacionados (correlación −0,77), así que parte de la bajada es por edad.
+
 ---
 
 ## Pendiente

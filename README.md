@@ -152,7 +152,8 @@ Cada cuaderno hace **solo su fase**: lee lo que deja el anterior y guarda lo que
 | # | Cuaderno | Qué hace | Lee | Guarda |
 |---|---|---|---|---|
 | 1 | `01_eda.ipynb` | Explora y anota decisiones (no modifica datos) | `data/raw/` | — |
-| 2 | `02_limpieza.ipynb` | Aplica las decisiones del EDA (columnas, nulos) | `data/raw/` | `data/processed/coches_limpio.csv` |
+| 1b | `01b_preguntas_eda.ipynb` | Preguntas 1-7 y primera validación de H1-H3 (no modifica datos) | `data/raw/` | figuras en `outputs/figures/` |
+| 2 | `02_limpieza.ipynb` | Aplica las decisiones del EDA (columnas, nulos, potencia) | `data/raw/` | `data/processed/coches_limpio.csv` |
 | 3 | `03_preprocesado.ipynb` | Atípicos, encoding, train/test, escalado (solo para la lineal) | `coches_limpio.csv` | train/test en `data/processed/` |
 | 4 | `04_modelado.ipynb` | Entrena regresión lineal, Random Forest y XGBoost | train/test | `models/` |
 | 5 | `05_evaluacion.ipynb` | Compara MAE, MAPE y RMSE y elige el mejor | `models/` + test | `outputs/` |
