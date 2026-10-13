@@ -141,6 +141,7 @@ tfm-p1-precio-coches/
 ├── models/           # Modelos entrenados (no se suben)
 ├── outputs/          # Gráficos, tablas e informes generados
 ├── requirements.txt  # Dependencias
+├── DECISIONES.md     # Registro diario de decisiones
 └── README.md
 ```
 
