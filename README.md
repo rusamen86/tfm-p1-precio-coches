@@ -204,6 +204,10 @@ Figuras generadas en notebooks/01_eda.ipynb (se guardan con plt.savefig en outpu
 
 ![Mediana del precio por año de fabricación](outputs/figures/04_mediana_precio_por_anio.png)
 
+**Valor retenido por marca (Pregunta 4):** mediana de los coches de 2013-2015 frente a la de 2018-2020; Fiat, Audi y Volkswagen son las que mejor mantienen su valor.
+
+![Valor retenido por marca](outputs/figures/06_valor_retenido_por_marca.png)
+
 ---
 
 ## 📈 Resultados
