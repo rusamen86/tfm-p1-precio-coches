@@ -72,7 +72,7 @@ oferta = precio_estimado × (1 − margen) − costes_de_preparación
 1. ¿Cómo se distribuye el precio y qué valores atípicos hay?
 2. ¿Cuánto se deprecia un coche por cada año de antigüedad?
 3. ¿Cuánto baja el precio por cada 10.000 km?
-4. ¿Qué marcas mantienen mejor su valor?
+4. ¿Qué marcas conservan mejor su valor frente a otras?
 5. ¿Cómo influyen el combustible y el tipo de cambio?
 6. ¿Influye la provincia?
 7. ¿Hay diferencias entre vendedor profesional y particular?
@@ -141,6 +141,7 @@ tfm-p1-precio-coches/
 ├── models/           # Modelos entrenados (no se suben)
 ├── outputs/          # Gráficos, tablas e informes generados
 ├── requirements.txt  # Dependencias
+├── DECISIONES.md     # Registro diario de decisiones
 └── README.md
 ```
 
@@ -151,7 +152,8 @@ Cada cuaderno hace **solo su fase**: lee lo que deja el anterior y guarda lo que
 | # | Cuaderno | Qué hace | Lee | Guarda |
 |---|---|---|---|---|
 | 1 | `01_eda.ipynb` | Explora y anota decisiones (no modifica datos) | `data/raw/` | — |
-| 2 | `02_limpieza.ipynb` | Aplica las decisiones del EDA (columnas, nulos) | `data/raw/` | `data/processed/coches_limpio.csv` |
+| 1b | `01b_preguntas_eda.ipynb` | Preguntas 1-7 y primera validación de H1-H3 (no modifica datos) | `data/raw/` | figuras en `outputs/figures/` |
+| 2 | `02_limpieza.ipynb` | Aplica las decisiones del EDA (columnas, nulos, potencia) | `data/raw/` | `data/processed/coches_limpio.csv` |
 | 3 | `03_preprocesado.ipynb` | Atípicos, encoding, train/test, escalado (solo para la lineal) | `coches_limpio.csv` | train/test en `data/processed/` |
 | 4 | `04_modelado.ipynb` | Entrena regresión lineal, Random Forest y XGBoost | train/test | `models/` |
 | 5 | `05_evaluacion.ipynb` | Compara MAE, MAPE y RMSE y elige el mejor | `models/` + test | `outputs/` |
@@ -201,6 +203,14 @@ Figuras generadas en notebooks/01_eda.ipynb (se guardan con plt.savefig en outpu
 **Mediana del precio por año:** el precio baja de forma regular con la antigüedad (≈ 11-12 % por año).
 
 ![Mediana del precio por año de fabricación](outputs/figures/04_mediana_precio_por_anio.png)
+
+**Mediana del precio por tramo de kilómetros (Pregunta 3):** el precio baja de forma regular con los kilómetros (≈ 656 € cada 10.000 km).
+
+![Mediana del precio por tramo de 10.000 km](outputs/figures/05_mediana_precio_por_kms.png)
+
+**Valor retenido por marca (Pregunta 4):** mediana de los coches de 2013-2015 frente a la de 2018-2020; Fiat, Audi y Volkswagen son las que mejor conservan su valor.
+
+![Valor retenido por marca](outputs/figures/06_valor_retenido_por_marca.png)
 
 ---
 
