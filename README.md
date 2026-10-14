@@ -61,7 +61,7 @@ oferta = precio_estimado × (1 − margen) − costes_de_preparación
 *Las validaremos o refutaremos con los datos.*
 
 - **H1:** los coches de alta gama se deprecian más rápido.
-- **H2:** Volkswagen se deprecia menos que la media.
+- **H2:** hay marcas que se deprecian menos que la media y otras que se deprecian más.
 - **H3:** a igualdad de año, el precio va de mayor a menor así: eléctrico > diésel > gasolina.
 
 ---
@@ -186,7 +186,7 @@ jupyter notebook
 
 ## 🖼️ Visualizaciones del EDA
 
-Figuras generadas en notebooks/01_eda.ipynb (se guardan con plt.savefig en outputs/figures/).
+Figuras generadas en notebooks/01_eda.ipynb y notebooks/02b_preguntas_eda.ipynb (se guardan con plt.savefig en outputs/figures/).
 
 **Distribución de las variables numéricas:** histogramas de precio, kilómetros, potencia y fotos; todas con cola a la derecha.
 
@@ -204,7 +204,7 @@ Figuras generadas en notebooks/01_eda.ipynb (se guardan con plt.savefig en outpu
 
 ![Mediana del precio por año de fabricación](outputs/figures/04_mediana_precio_por_anio.png)
 
-**Mediana del precio por tramo de kilómetros (Pregunta 3):** el precio baja de forma regular con los kilómetros (≈ 656 € cada 10.000 km).
+**Mediana del precio por tramo de kilómetros (Pregunta 3):** el precio baja de forma regular con los kilómetros (≈ 657 € cada 10.000 km).
 
 ![Mediana del precio por tramo de 10.000 km](outputs/figures/05_mediana_precio_por_kms.png)
 
