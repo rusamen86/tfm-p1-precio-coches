@@ -212,6 +212,18 @@ Figuras generadas en notebooks/01_eda.ipynb y notebooks/02b_preguntas_eda.ipynb 
 
 ![Valor retenido por marca](outputs/figures/06_valor_retenido_por_marca.png)
 
+**Mediana del precio por combustible (Pregunta 5):** con los coches de 2018-2020, eléctrico (28.500 €) > diésel (23.890 €) > gasolina (17.900 €).
+
+![Mediana del precio por combustible](outputs/figures/07_mediana_precio_por_combustible.png)
+
+**Mediana del precio por tipo de cambio (Pregunta 5):** con los coches de 2018-2020, un automático vale de mediana 30.800 € frente a 17.400 € de un manual.
+
+![Mediana del precio por tipo de cambio](outputs/figures/08_mediana_precio_por_cambio.png)
+
+**Mediana del precio por provincia (Pregunta 6):** en la península hay poca diferencia entre provincias; Canarias y Baleares salen más baratas.
+
+![Mediana del precio por provincia](outputs/figures/09_mediana_precio_por_provincia.png)
+
 ---
 
 ## 📈 Resultados
