@@ -64,6 +64,16 @@ oferta = precio_estimado × (1 − margen) − costes_de_preparación
 - **H2:** hay marcas que se deprecian menos que la media y otras que se deprecian más.
 - **H3:** a igualdad de año, el precio va de mayor a menor así: eléctrico > diésel > gasolina.
 
+**Estado tras el EDA** (primera validación en 02b_preguntas_eda.ipynb; el EDA, preguntas 1-7, está terminado):
+
+| Hipótesis | Resultado | Dónde |
+|---|---|---|
+| H1 | **Refutada:** Audi, BMW y Mercedes conservan su valor por encima de la media | Pregunta 4 |
+| H2 | **Apoyada:** unas marcas conservan su valor por encima de la media y otras por debajo | Pregunta 4 |
+| H3 | **Apoyada** con los coches de 2018-2020: eléctrico 28.500 € > diésel 23.890 € > gasolina 17.900 € | Pregunta 5 |
+
+Se volverán a comprobar con el modelo (SHAP) en 06_explicabilidad_negocio.ipynb.
+
 ---
 
 ## ❓ Preguntas a responder
@@ -223,6 +233,10 @@ Figuras generadas en notebooks/01_eda.ipynb y notebooks/02b_preguntas_eda.ipynb 
 **Mediana del precio por provincia (Pregunta 6):** en la península hay poca diferencia entre provincias; Canarias y Baleares salen más baratas.
 
 ![Mediana del precio por provincia](outputs/figures/09_mediana_precio_por_provincia.png)
+
+**Mediana del precio por tipo de vendedor (Pregunta 7):** con todos los años, un profesional anuncia a 15.999 € y un particular a 7.800 €; con los coches de 2018-2020 la diferencia desaparece (20.900 € frente a 21.000 €).
+
+![Mediana del precio por tipo de vendedor](outputs/figures/10_mediana_precio_por_vendedor.png)
 
 ---
 
