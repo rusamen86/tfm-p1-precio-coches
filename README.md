@@ -61,8 +61,18 @@ oferta = precio_estimado × (1 − margen) − costes_de_preparación
 *Las validaremos o refutaremos con los datos.*
 
 - **H1:** los coches de alta gama se deprecian más rápido.
-- **H2:** Volkswagen se deprecia menos que la media.
+- **H2:** hay marcas que se deprecian menos que la media y otras que se deprecian más.
 - **H3:** a igualdad de año, el precio va de mayor a menor así: eléctrico > diésel > gasolina.
+
+**Estado tras el EDA** (primera validación en 02b_preguntas_eda.ipynb; el EDA, preguntas 1-7, está terminado):
+
+| Hipótesis | Resultado | Dónde |
+|---|---|---|
+| H1 | **Refutada:** Audi, BMW y Mercedes conservan su valor por encima de la media | Pregunta 4 |
+| H2 | **Apoyada:** unas marcas conservan su valor por encima de la media y otras por debajo | Pregunta 4 |
+| H3 | **Apoyada** con los coches de 2018-2020: eléctrico 28.500 € > diésel 23.890 € > gasolina 17.900 € | Pregunta 5 |
+
+Se volverán a comprobar con el modelo (SHAP) en 06_explicabilidad_negocio.ipynb.
 
 ---
 
@@ -152,8 +162,8 @@ Cada cuaderno hace **solo su fase**: lee lo que deja el anterior y guarda lo que
 | # | Cuaderno | Qué hace | Lee | Guarda |
 |---|---|---|---|---|
 | 1 | `01_eda.ipynb` | Explora y anota decisiones (no modifica datos) | `data/raw/` | — |
-| 1b | `01b_preguntas_eda.ipynb` | Preguntas 1-7 y primera validación de H1-H3 (no modifica datos) | `data/raw/` | figuras en `outputs/figures/` |
 | 2 | `02_limpieza.ipynb` | Aplica las decisiones del EDA (columnas, nulos, potencia) | `data/raw/` | `data/processed/coches_limpio.csv` |
+| 2b | `02b_preguntas_eda.ipynb` | Preguntas 1-7 y primera validación de H1-H3 (no modifica datos) | `coches_limpio.csv` | figuras en `outputs/figures/` |
 | 3 | `03_preprocesado.ipynb` | Atípicos, encoding, train/test, escalado (solo para la lineal) | `coches_limpio.csv` | train/test en `data/processed/` |
 | 4 | `04_modelado.ipynb` | Entrena regresión lineal, Random Forest y XGBoost | train/test | `models/` |
 | 5 | `05_evaluacion.ipynb` | Compara MAE, MAPE y RMSE y elige el mejor | `models/` + test | `outputs/` |
@@ -186,7 +196,7 @@ jupyter notebook
 
 ## 🖼️ Visualizaciones del EDA
 
-Figuras generadas en notebooks/01_eda.ipynb (se guardan con plt.savefig en outputs/figures/).
+Figuras generadas en notebooks/01_eda.ipynb y notebooks/02b_preguntas_eda.ipynb (se guardan con plt.savefig en outputs/figures/).
 
 **Distribución de las variables numéricas:** histogramas de precio, kilómetros, potencia y fotos; todas con cola a la derecha.
 
@@ -204,13 +214,29 @@ Figuras generadas en notebooks/01_eda.ipynb (se guardan con plt.savefig en outpu
 
 ![Mediana del precio por año de fabricación](outputs/figures/04_mediana_precio_por_anio.png)
 
-**Mediana del precio por tramo de kilómetros (Pregunta 3):** el precio baja de forma regular con los kilómetros (≈ 656 € cada 10.000 km).
+**Mediana del precio por tramo de kilómetros (Pregunta 3):** el precio baja de forma regular con los kilómetros (≈ 657 € cada 10.000 km).
 
 ![Mediana del precio por tramo de 10.000 km](outputs/figures/05_mediana_precio_por_kms.png)
 
 **Valor retenido por marca (Pregunta 4):** mediana de los coches de 2013-2015 frente a la de 2018-2020; Fiat, Audi y Volkswagen son las que mejor conservan su valor.
 
 ![Valor retenido por marca](outputs/figures/06_valor_retenido_por_marca.png)
+
+**Mediana del precio por combustible (Pregunta 5):** con los coches de 2018-2020, eléctrico (28.500 €) > diésel (23.890 €) > gasolina (17.900 €).
+
+![Mediana del precio por combustible](outputs/figures/07_mediana_precio_por_combustible.png)
+
+**Mediana del precio por tipo de cambio (Pregunta 5):** con los coches de 2018-2020, un automático vale de mediana 30.800 € frente a 17.400 € de un manual.
+
+![Mediana del precio por tipo de cambio](outputs/figures/08_mediana_precio_por_cambio.png)
+
+**Mediana del precio por provincia (Pregunta 6):** en la península hay poca diferencia entre provincias; Canarias y Baleares salen más baratas.
+
+![Mediana del precio por provincia](outputs/figures/09_mediana_precio_por_provincia.png)
+
+**Mediana del precio por tipo de vendedor (Pregunta 7):** con todos los años, un profesional anuncia a 15.999 € y un particular a 7.800 €; con los coches de 2018-2020 la diferencia desaparece (20.900 € frente a 21.000 €).
+
+![Mediana del precio por tipo de vendedor](outputs/figures/10_mediana_precio_por_vendedor.png)
 
 ---
 
