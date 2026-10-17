@@ -14,13 +14,16 @@ Modelo predictivo (regresión) que estima el **precio de venta de un coche de se
 4. [Preguntas a responder](#-preguntas-a-responder)
 5. [Modelos](#-modelos)
 6. [Métricas y KPIs](#-métricas-y-kpis)
-7. [Estructura del repositorio](#-estructura-del-repositorio)
-8. [Flujo de ramas](#-flujo-de-ramas)
-9. [Cómo ejecutar](#️-cómo-ejecutar)
-10. [Resultados](#-resultados)
-11. [Explicabilidad](#-explicabilidad)
-12. [Paso a producción](#-paso-a-producción)
-13. [Conclusiones y mejoras](#-conclusiones-y-mejoras)
+7. [Estructura del repositorio](#️-estructura-del-repositorio)
+8. [Esquema del flujo](#-esquema-del-flujo)
+9. [Preprocesado](#️-preprocesado)
+10. [Flujo de ramas](#-flujo-de-ramas)
+11. [Cómo ejecutar](#️-cómo-ejecutar)
+12. [Visualizaciones](#️-visualizaciones)
+13. [Resultados](#-resultados)
+14. [Explicabilidad](#-explicabilidad)
+15. [Paso a producción](#-paso-a-producción)
+16. [Conclusiones y mejoras](#-conclusiones-y-mejoras)
 
 ---
 
@@ -107,13 +110,17 @@ Se volverán a comprobar con el modelo (SHAP) en 06_explicabilidad_negocio.ipynb
 | Random Forest | Modelo de árboles (ensemble) |
 | XGBoost | Gradient boosting |
 
-**Resultados** (pendiente de rellenar):
+**Resultados en test** (04_modelado.ipynb, 8.123 coches):
 
-| Modelo | MAE (€) | MAPE (%) | RMSE (€) | % coches con error < margen |
-|---|---|---|---|---|
-| Regresión lineal | | | | |
-| Random Forest | | | | |
-| XGBoost | | | | |
+| Modelo | MAE (€) | MAPE (%) | RMSE (€) | R2 (log) | % coches con error < 15 % |
+|---|---|---|---|---|---|
+| Regresión lineal | 2.664 | 16,8 | 5.302 | 0,907 | 58,7 |
+| Random Forest (ajustado) | 1.816 | 12,6 | 3.372 | 0,940 | 72,7 |
+| XGBoost (ajustado) | 1.854 | 12,7 | 3.248 | 0,942 | 71,5 |
+
+- **Ajuste de hiperparámetros:** RandomizedSearchCV con n_iter 10, cv 3 y el MAE como medida, solo sobre train.
+- **Train frente a test:** el Random Forest sobreajusta más (MAE 670 € en train frente a 1.816 € en test); el XGBoost, menos (1.499 € frente a 1.854 €). La regresión lineal no sobreajusta (2.620 € frente a 2.664 €).
+- El Random Forest tiene el menor MAE, MAPE y el mayor % de coches con error < 15 %; el XGBoost, el menor RMSE y el mayor R2. La elección final se hace en 05_evaluacion.ipynb.
 
 ---
 
@@ -127,7 +134,7 @@ Se volverán a comprobar con el modelo (SHAP) en 06_explicabilidad_negocio.ipynb
 | **RMSE** | Error en €, penaliza los errores grandes | Detecta tasaciones muy desviadas |
 
 ### De negocio
-- **% de coches tasados con un error menor que el margen** → en cuántos no perderíamos dinero.
+- **% de coches con error < 15 %** (el margen) → en cuántos no perderíamos dinero.
 - **Dinero arriesgado de media por coche.**
 
 ### ⚖️ El error no pesa igual en los dos sentidos
@@ -164,12 +171,48 @@ Cada cuaderno hace **solo su fase**: lee lo que deja el anterior y guarda lo que
 | 1 | `01_eda.ipynb` | Explora y anota decisiones (no modifica datos) | `data/raw/` | — |
 | 2 | `02_limpieza.ipynb` | Aplica las decisiones del EDA (columnas, nulos, potencia) | `data/raw/` | `data/processed/coches_limpio.csv` |
 | 2b | `02b_preguntas_eda.ipynb` | Preguntas 1-7 y primera validación de H1-H3 (no modifica datos) | `coches_limpio.csv` | figuras en `outputs/figures/` |
-| 3 | `03_preprocesado.ipynb` | Atípicos, encoding, train/test, escalado (solo para la lineal) | `coches_limpio.csv` | train/test en `data/processed/` |
+| 3 | `03_preprocesado.ipynb` | Encoding, train/test, escalado (solo para la lineal) | `coches_limpio.csv` | train/test en `data/processed/` |
 | 4 | `04_modelado.ipynb` | Entrena regresión lineal, Random Forest y XGBoost | train/test | `models/` |
 | 5 | `05_evaluacion.ipynb` | Compara MAE, MAPE y RMSE y elige el mejor | `models/` + test | `outputs/` |
 | 6 | `06_explicabilidad_negocio.ipynb` | SHAP, hipótesis, preguntas 11-13, paso a producción | mejor modelo + test | `outputs/` |
 
 > No usamos PCA: hay pocas variables y queremos un modelo explicable. El escalado solo se aplica a la regresión lineal.
+
+---
+
+## 🔀 Esquema del flujo
+
+```mermaid
+flowchart TD
+    A[data/raw/coches_segunda_mano.csv] --> B[01_eda]
+    B --> C[02_limpieza]
+    C --> D[data/processed/coches_limpio.csv]
+    D --> E[02b_preguntas_eda]
+    D --> F[03_preprocesado]
+    F --> G[train/test en data/processed]
+    G --> H[04_modelado: regresión lineal, Random Forest y XGBoost]
+    H --> I[05_evaluacion]
+    I --> J[06_explicabilidad_negocio]
+    E --> K[README y resultados]
+    J --> K
+```
+
+---
+
+## ⚙️ Preprocesado
+
+Decisiones aplicadas en 03_preprocesado.ipynb:
+
+- **Variable objetivo:** log(price).
+- **Antigüedad:** age = 2021 − year (los datos se capturaron en enero de 2021).
+- **Columnas eliminadas:** publish_date y photos.
+- **Binarias 0/1:** is_professional y shift (automático = 1).
+- **Provincia:** se sustituye por isla 0/1 (Las Palmas, Tenerife y Baleares = 1).
+- **Combustible:** one-hot antes de separar (no aprende nada de los datos).
+- **Train/test:** 80/20 con random_state 42.
+- **Marca:** las 10 más frecuentes en train y el resto en Other, con one-hot ajustado en train.
+- **Modelo:** TargetEncoder ajustado solo en train.
+- **Escalado:** StandardScaler solo para la regresión lineal.
 
 ---
 
@@ -194,7 +237,9 @@ jupyter notebook
 
 ---
 
-## 🖼️ Visualizaciones del EDA
+## 🖼️ Visualizaciones
+
+### 🔍 EDA
 
 Figuras generadas en notebooks/01_eda.ipynb y notebooks/02b_preguntas_eda.ipynb (se guardan con plt.savefig en outputs/figures/).
 
@@ -237,6 +282,30 @@ Figuras generadas en notebooks/01_eda.ipynb y notebooks/02b_preguntas_eda.ipynb 
 **Mediana del precio por tipo de vendedor (Pregunta 7):** con todos los años, un profesional anuncia a 15.999 € y un particular a 7.800 €; con los coches de 2018-2020 la diferencia desaparece (20.900 € frente a 21.000 €).
 
 ![Mediana del precio por tipo de vendedor](outputs/figures/10_mediana_precio_por_vendedor.png)
+
+### 🤖 Modelos
+
+Figuras generadas en notebooks/04_modelado.ipynb con los coches de test.
+
+**Real frente a predicho, regresión lineal:** MAE de 2.664 € y solo el 58,7 % de los coches con error < 15 %.
+
+![Real frente a predicho, regresión lineal](outputs/figures/11_real_vs_predicho_lineal.png)
+
+**Importancia de las variables, Random Forest:** age (0,34), model (0,27), power (0,16) y kms (0,13) son las que más pesan.
+
+![Importancia de las variables, Random Forest](outputs/figures/12_importancia_random_forest.png)
+
+**Real frente a predicho, Random Forest (ajustado):** MAE de 1.816 € y el 72,7 % de los coches con error < 15 %.
+
+![Real frente a predicho, Random Forest](outputs/figures/13_real_vs_predicho_random_forest.png)
+
+**Importancia de las variables, XGBoost:** age (0,39) es la más importante, seguida de model (0,13), power (0,13) y shift (0,07).
+
+![Importancia de las variables, XGBoost](outputs/figures/14_importancia_xgboost.png)
+
+**Real frente a predicho, XGBoost (ajustado):** MAE de 1.854 € y el 71,5 % de los coches con error < 15 %.
+
+![Real frente a predicho, XGBoost](outputs/figures/15_real_vs_predicho_xgboost.png)
 
 ---
 
