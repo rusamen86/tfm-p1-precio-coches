@@ -120,7 +120,8 @@ Se volverán a comprobar con el modelo (SHAP) en 06_explicabilidad_negocio.ipynb
 
 - **Ajuste de hiperparámetros:** RandomizedSearchCV con n_iter 10, cv 3 y el MAE como medida, solo sobre train.
 - **Train frente a test:** el Random Forest sobreajusta más (MAE 670 € en train frente a 1.816 € en test); el XGBoost, menos (1.499 € frente a 1.854 €). La regresión lineal no sobreajusta (2.620 € frente a 2.664 €).
-- El Random Forest tiene el menor MAE, MAPE y el mayor % de coches con error < 15 %; el XGBoost, el menor RMSE y el mayor R2. La elección final se hace en 05_evaluacion.ipynb.
+- El Random Forest tiene el menor MAE, MAPE y el mayor % de coches con error < 15 %; el XGBoost, el menor RMSE y el mayor R2.
+- **Persistencia:** cada modelo entrenado se guarda con joblib en models/ y se carga en los cuadernos siguientes sin reentrenar. Es también la base para usarlo fuera del proyecto. joblib no se vio en el máster; es una aportación propia del TFM.
 
 ---
 
@@ -173,7 +174,7 @@ Cada cuaderno hace **solo su fase**: lee lo que deja el anterior y guarda lo que
 | 2b | `02b_preguntas_eda.ipynb` | Preguntas 1-7 y primera validación de H1-H3 (no modifica datos) | `coches_limpio.csv` | figuras en `outputs/figures/` |
 | 3 | `03_preprocesado.ipynb` | Encoding, train/test, escalado (solo para la lineal) | `coches_limpio.csv` | train/test en `data/processed/` |
 | 4 | `04_modelado.ipynb` | Entrena regresión lineal, Random Forest y XGBoost | train/test | `models/` |
-| 5 | `05_evaluacion.ipynb` | Compara MAE, MAPE y RMSE y elige el mejor | `models/` + test | `outputs/` |
+| 5 | `05_evaluacion.ipynb` | Compara los modelos, analiza la sobrevaloración y dónde fallan, y elige el modelo | `models/` + test | `outputs/` |
 | 6 | `06_explicabilidad_negocio.ipynb` | SHAP, hipótesis, preguntas 11-13, paso a producción | mejor modelo + test | `outputs/` |
 
 > No usamos PCA: hay pocas variables y queremos un modelo explicable. El escalado solo se aplica a la regresión lineal.
@@ -309,9 +310,36 @@ Figuras generadas en notebooks/04_modelado.ipynb con los coches de test.
 
 ---
 
+### 📏 Evaluación
+
+Figuras generadas en notebooks/05_evaluacion.ipynb con los coches de test.
+
+**Error porcentual medio por rango de precio:** los dos modelos fallan mucho más en los coches de menos de 5.000 € (28-29 %) y menos entre 10.000 y 40.000 € (9-10 %).
+
+![Error porcentual medio por rango de precio](outputs/figures/16_error_por_precio.png)
+
+**Error porcentual medio por antigüedad:** el error crece con los años, del 8-9 % en coches de hasta 3 años a más del 22 % en los de más de 12.
+
+![Error porcentual medio por antigüedad](outputs/figures/17_error_por_edad.png)
+
+---
+
 ## 📈 Resultados
 
-*Pendiente.*
+**Modelo elegido: Random Forest** (05_evaluacion.ipynb).
+
+La regresión lineal se descarta por sus peores métricas. Random Forest y XGBoost están muy igualados, así que la elección se hace con criterios de negocio:
+
+| Modelo | Coches sobrevalorados | Sobrevaloración media | Sobrevaloración total en test |
+|---|---|---|---|
+| Random Forest | 49,9 % | 1.537 € | 6,23 M€ |
+| XGBoost | 50,1 % | 1.624 € | 6,61 M€ |
+
+- Random Forest pone menos dinero en riesgo, unos 380.000 € menos en los 8.123 coches de test.
+- Acierta más en los coches de 10.000 a 40.000 € y en los de hasta 3 años, el grueso de las compras.
+- Los dos modelos fallan más en coches baratos (menos de 5.000 €) y antiguos (más de 12 años), cuyo precio depende del estado del coche, que no está en los datos.
+- XGBoost queda como alternativa: resultados muy cercanos y más estable entre train y test.
+- No se reentrena para que el modelo infravalore: la protección frente al error la da el margen de la oferta (preguntas 11 y 13).
 
 ## 🔎 Explicabilidad
 
