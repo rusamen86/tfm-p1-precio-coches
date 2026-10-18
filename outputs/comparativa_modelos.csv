@@ -1,0 +1,4 @@
+modelo,MAE (€),MAPE (%),RMSE (€),R2 (log)
+Regresión lineal,2664.474,16.803,5301.915,0.907
+Random Forest,1816.342,12.595,3372.336,0.94
+XGBoost,1853.692,12.718,3248.2,0.942
