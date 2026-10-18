@@ -160,10 +160,9 @@ tfm-p1-precio-coches/
 │   ├── raw/          # Datos originales, sin tocar (no se suben)
 │   └── processed/    # Datos limpios listos para modelar (no se suben)
 ├── notebooks/        # Un cuaderno por fase (ver hoja de ruta)
-├── src/              # Código reutilizable (carga, preprocesado...)
-├── scripts/          # Scripts ejecutables (pipeline completo)
 ├── models/           # Modelos entrenados (no se suben)
 ├── outputs/          # Gráficos, tablas e informes generados
+├── docs/             # Presentación de negocio en PDF
 ├── requirements.txt  # Dependencias
 ├── DECISIONES.md     # Registro diario de decisiones
 └── README.md
