@@ -382,4 +382,19 @@ La oferta no da pérdidas si queda por debajo del precio real del coche. No se i
 
 ## ✅ Conclusiones y mejoras
 
-*Pendiente.*
+### Conclusiones
+
+- **El modelo es útil para el negocio con un margen adecuado.** El Random Forest se equivoca de media en 1.816 € (un 12,6 % del precio). Con un margen del 15 % no se pierde dinero en el 88,3 % de los coches, y con un 16,5 % en el 90 %, ofreciendo al vendedor típico un 83 % del valor de su coche.
+- **La elección del modelo se hizo con criterios de negocio.** Random Forest y XGBoost empatan en las métricas técnicas. Se eligió el Random Forest porque pone menos dinero en riesgo (unos 380.000 € menos de sobrevaloración en test) y acierta más en los coches de 10.000 a 40.000 € y de hasta 3 años, el grueso de las compras.
+- **El precio lo explican sobre todo la antigüedad, el modelo, la potencia y los kilómetros.** El cambio automático suma alrededor de un 10 %; el resto de variables apenas pesa.
+- **La marca importa, pero no como se esperaba.** La alta gama no se deprecia más rápido (H1 refutada): Mercedes-Benz es la que más valor retiene. Entre marcas hay hasta 10 puntos de diferencia en valor retenido (H2 apoyada).
+- **El combustible pesa poco una vez conocido el modelo del coche** (H3 apoyada solo en parte).
+- **El modelo no sustituye a la persona en todos los casos.** Los coches de menos de 5.000 € y los de más de 12 años tienen errores del 22-29 %. Para ellos conviene una revisión manual antes de hacer la oferta.
+
+### Mejoras para una versión futura
+
+- **Datos más recientes.** El dataset termina en enero de 2021; los precios de segunda mano han cambiado mucho desde entonces.
+- **Variables sobre el estado del coche** (revisiones, golpes, ITV, equipamiento), que explicarían buena parte del error en los coches baratos y antiguos.
+- **Costes de preparación reales** para calcular la oferta completa y el beneficio por coche.
+- **Margen variable por tramo:** un margen menor en los coches donde el modelo acierta más y uno mayor (o revisión manual) en los baratos y antiguos.
+- **Más datos de coches eléctricos e híbridos,** que hoy son pocos y el modelo apenas aprende de ellos.
