@@ -75,7 +75,13 @@ oferta = precio_estimado × (1 − margen) − costes_de_preparación
 | H2 | **Apoyada:** unas marcas conservan su valor por encima de la media y otras por debajo | Pregunta 4 |
 | H3 | **Apoyada** con los coches de 2018-2020: eléctrico 28.500 € > diésel 23.890 € > gasolina 17.900 € | Pregunta 5 |
 
-Se volverán a comprobar con el modelo (SHAP) en 06_explicabilidad_negocio.ipynb.
+**Estado tras el modelo** (simulación con el Random Forest en 06_explicabilidad_negocio.ipynb, cambiando solo la antigüedad o el combustible de los coches de test):
+
+| Hipótesis | Resultado |
+|---|---|
+| H1 | **Refutada:** de 2 a 8 años la alta gama retiene el 71,2 % de su valor y el resto el 70,8 %; Mercedes-Benz es la que más retiene (74 %) |
+| H2 | **Apoyada:** el valor retenido va del 64 % de Peugeot al 74 % de Mercedes-Benz |
+| H3 | **Apoyada en parte:** el modelo da diésel 17.288 € > eléctrico 16.646 € > gasolina 16.265 €; el combustible apenas pesa porque su efecto lo recoge la variable model y hay pocos eléctricos |
 
 ---
 
@@ -343,7 +349,32 @@ La regresión lineal se descarta por sus peores métricas. Random Forest y XGBoo
 
 ## 🔎 Explicabilidad
 
-*Pendiente.*
+SHAP sobre el Random Forest con una muestra de 500 coches de test (06_explicabilidad_negocio.ipynb). Como el modelo predice el logaritmo del precio, un valor SHAP de 0,10 equivale a un 10 % más de precio, aproximadamente.
+
+- **age** es la variable que más pesa: los coches viejos bajan el precio y los nuevos lo suben.
+- **model** y **power** suben el precio cuando son altos; **kms** lo baja cuando son muchos.
+- El cambio automático (**shift**) suma alrededor de un 10 %.
+- Vendedor, combustible, puertas y marca pesan muy poco.
+
+![Efecto de cada variable en el precio (SHAP)](outputs/figures/19_shap_efecto.png)
+
+### 💼 Preguntas de negocio
+
+La oferta no da pérdidas si queda por debajo del precio real del coche. No se incluyen costes de preparación por falta de datos.
+
+| Margen | Coches sin pérdida |
+|---|---|
+| 5 % | 67,4 % |
+| 10 % | 80,1 % |
+| 15 % | 88,3 % |
+| 20 % | 93,0 % |
+| 25 % | 95,6 % |
+
+- **Pregunta 11:** con un margen del 15 %, no se pierde dinero en el 88,3 % de los coches.
+- **Pregunta 13:** el margen mínimo seguro en el 90 % de los casos es del 16,5 %. Con él, la oferta mediana es el 83,4 % del precio real del coche.
+- **Pregunta 12** (05_evaluacion.ipynb): los coches de menos de 5.000 € y los de más de 12 años son los que conviene revisar a mano.
+
+![Coches sin pérdida según el margen](outputs/figures/21_coches_sin_perdida_por_margen.png)
 
 ## 🚀 Paso a producción
 
