@@ -22,8 +22,10 @@ Modelo predictivo (regresión) que estima el **precio de venta de un coche de se
 12. [Visualizaciones](#️-visualizaciones)
 13. [Resultados](#-resultados)
 14. [Explicabilidad](#-explicabilidad)
-15. [Paso a producción](#-paso-a-producción)
-16. [Conclusiones y mejoras](#-conclusiones-y-mejoras)
+15. [Dificultades](#️-dificultades)
+16. [Paso a producción](#-paso-a-producción)
+17. [Conclusiones y mejoras](#-conclusiones-y-mejoras)
+18. [Uso de la IA](#-uso-de-la-ia)
 
 ---
 
@@ -75,7 +77,13 @@ oferta = precio_estimado × (1 − margen) − costes_de_preparación
 | H2 | **Apoyada:** unas marcas conservan su valor por encima de la media y otras por debajo | Pregunta 4 |
 | H3 | **Apoyada** con los coches de 2018-2020: eléctrico 28.500 € > diésel 23.890 € > gasolina 17.900 € | Pregunta 5 |
 
-Se volverán a comprobar con el modelo (SHAP) en 06_explicabilidad_negocio.ipynb.
+**Estado tras el modelo** (simulación con el Random Forest en 06_explicabilidad_negocio.ipynb, cambiando solo la antigüedad o el combustible de los coches de test):
+
+| Hipótesis | Resultado |
+|---|---|
+| H1 | **Refutada:** de 2 a 8 años la alta gama retiene el 71,2 % de su valor y el resto el 70,8 %; Mercedes-Benz es la que más retiene (74 %) |
+| H2 | **Apoyada:** el valor retenido va del 64 % de Peugeot al 74 % de Mercedes-Benz |
+| H3 | **Apoyada en parte:** el modelo da diésel 17.288 € > eléctrico 16.646 € > gasolina 16.265 €; el combustible apenas pesa porque su efecto lo recoge la variable model y hay pocos eléctricos |
 
 ---
 
@@ -154,10 +162,9 @@ tfm-p1-precio-coches/
 │   ├── raw/          # Datos originales, sin tocar (no se suben)
 │   └── processed/    # Datos limpios listos para modelar (no se suben)
 ├── notebooks/        # Un cuaderno por fase (ver hoja de ruta)
-├── src/              # Código reutilizable (carga, preprocesado...)
-├── scripts/          # Scripts ejecutables (pipeline completo)
 ├── models/           # Modelos entrenados (no se suben)
 ├── outputs/          # Gráficos, tablas e informes generados
+├── docs/             # Presentación de negocio en PDF
 ├── requirements.txt  # Dependencias
 ├── DECISIONES.md     # Registro diario de decisiones
 └── README.md
@@ -227,14 +234,36 @@ Decisiones aplicadas en 03_preprocesado.ipynb:
 
 ## ▶️ Cómo ejecutar
 
+El proyecto se ha desarrollado con Python 3.14.
+
+1. Clonar el repositorio y entrar en la carpeta:
+
+```bash
+git clone https://github.com/rusamen86/tfm-p1-precio-coches.git
+cd tfm-p1-precio-coches
+```
+
+2. Crear el entorno virtual e instalar las dependencias:
+
 ```bash
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
-jupyter notebook
 ```
 
-*(Pendiente de completar con la ejecución del pipeline.)*
+3. Los datos ya están en el repositorio, en `data/raw/coches_segunda_mano.csv`. La fuente original está enlazada en la sección [Dataset](#-dataset).
+
+4. Abrir Jupyter (`jupyter notebook`) y ejecutar los cuadernos de `notebooks/` en este orden, cada uno de principio a fin:
+
+   1. `01_eda.ipynb`
+   2. `02_limpieza.ipynb`
+   3. `02b_preguntas_eda.ipynb`
+   4. `03_preprocesado.ipynb`
+   5. `04_modelado.ipynb`
+   6. `05_evaluacion.ipynb`
+   7. `06_explicabilidad_negocio.ipynb`
+
+Cada cuaderno lee lo que guarda el anterior. 04_modelado guarda los modelos entrenados en `models/`, y 05 y 06 los cargan de ahí sin volver a entrenar. En 06, el cálculo de SHAP tarda un par de minutos.
 
 ---
 
@@ -343,7 +372,63 @@ La regresión lineal se descarta por sus peores métricas. Random Forest y XGBoo
 
 ## 🔎 Explicabilidad
 
-*Pendiente.*
+SHAP sobre el Random Forest con una muestra de 500 coches de test (06_explicabilidad_negocio.ipynb). Como el modelo predice el logaritmo del precio, un valor SHAP de 0,10 equivale a un 10 % más de precio, aproximadamente.
+
+- **age** es la variable que más pesa: los coches viejos bajan el precio y los nuevos lo suben.
+- **model** y **power** suben el precio cuando son altos; **kms** lo baja cuando son muchos.
+- El cambio automático (**shift**) suma alrededor de un 10 %.
+- Vendedor, combustible, puertas y marca pesan muy poco.
+
+![Efecto de cada variable en el precio (SHAP)](outputs/figures/19_shap_efecto.png)
+
+### 💼 Preguntas de negocio
+
+La oferta no da pérdidas si queda por debajo del precio real del coche. No se incluyen costes de preparación por falta de datos.
+
+| Margen | Coches sin pérdida |
+|---|---|
+| 5 % | 67,4 % |
+| 10 % | 80,1 % |
+| 15 % | 88,3 % |
+| 20 % | 93,0 % |
+| 25 % | 95,6 % |
+
+- **Pregunta 11:** con un margen del 15 %, no se pierde dinero en el 88,3 % de los coches.
+- **Pregunta 13:** el margen mínimo seguro en el 90 % de los casos es del 16,5 %. Con él, la oferta mediana es el 83,4 % del precio real del coche.
+- **Pregunta 12** (05_evaluacion.ipynb): los coches de menos de 5.000 € y los de más de 12 años son los que conviene revisar a mano.
+
+![Coches sin pérdida según el margen](outputs/figures/21_coches_sin_perdida_por_margen.png)
+
+## 🛠️ Dificultades
+
+### 1. Limpieza de la potencia
+
+- **Problema:** power tenía 8.528 nulos (17 %), sobre todo en coches viejos y baratos, y es una de las variables que más pesan en el precio. Tras los cortes (precio de 1.000 € a 100.000 €, hasta 1.000.000 km, hasta 700 CV y coches de 2006 en adelante) quedaban 3.842 nulos (9,4 %).
+- **Qué se probó:** buscar coches gemelos con la misma marca, modelo y versión. Solo 53 lo tenían, porque la versión casi nunca describe el motor.
+- **Qué se decidió:** 17 coches toman la potencia del texto de version (los kW se pasan a CV). El resto se rellena con la moda de su marca + modelo, y se eliminan los 60 que no tienen ningún coche de la misma marca y modelo con potencia. No se usó la media ni la mediana porque pueden dar potencias que no existen en ese modelo; la moda es un motor real y frecuente.
+- **Columnas eliminadas:** price_financed (vacía en más de la mitad y casi igual que price), url, company y country (no describen el coche), dealer (casi 10.000 valores distintos), color (miles de formas de escribirse), insert_date (el mismo valor en todos) y version, después de usarla para la potencia.
+- **Lección:** antes de rellenar un dato hay que medir qué información real hay detrás, y es mejor quitar unos pocos coches que inventar valores.
+
+### 2. Codificación de las columnas no numéricas
+
+- **Problema:** los modelos necesitan números, y había columnas de texto con muchas categorías: 52 provincias, muchas marcas y 690 modelos distintos en train.
+- **Qué se decidió:**
+  - shift e is_professional pasan a 0/1 (automático = 1, profesional = 1).
+  - La provincia se sustituye por una sola columna, isla (Las Palmas, Tenerife y Baleares = 1), porque en la península apenas cambia el precio y en las islas los coches son más baratos.
+  - Combustible con one-hot.
+  - Marca: las 10 más frecuentes y el resto en Other, con one-hot.
+  - Modelo con target encoding: cada modelo se sustituye por la media del logaritmo del precio en train. Con 690 modelos, una columna por cada uno no era viable.
+- **Lección:** todo lo que aprende de los datos (marca, target encoding y escalado) se ajusta solo con train y después se aplica a test, para que el test no influya en el preprocesado.
+
+### 3. Elección final del modelo
+
+- **Problema:** Random Forest y XGBoost quedaron casi empatados. Random Forest gana en MAE (1.816 € frente a 1.854 €) y en MAPE (12,6 % frente a 12,7 %), y XGBoost en RMSE (3.248 € frente a 3.372 €).
+- **Qué se decidió:** elegir con un criterio de negocio: cuántos euros sobrevalora cada modelo, porque sobrevalorar hace perder dinero. Random Forest suma 6,23 millones de euros sobrevalorados en test y XGBoost 6,61 millones. Random Forest también acierta más entre 10.000 y 40.000 € y en los coches de hasta 3 años, que son el grueso del negocio.
+- **XGBoost queda como alternativa**, porque es más estable entre train y test.
+- **No se reentrenó** ningún modelo para que infravalore: la protección frente al error la da el margen de la oferta.
+- **Lección:** cuando las métricas generales empatan, hay que mirar el error desde el punto de vista del negocio.
+
+---
 
 ## 🚀 Paso a producción
 
@@ -351,4 +436,25 @@ La regresión lineal se descarta por sus peores métricas. Random Forest y XGBoo
 
 ## ✅ Conclusiones y mejoras
 
-*Pendiente.*
+### Conclusiones
+
+- **El modelo es útil para el negocio con un margen adecuado.** El Random Forest se equivoca de media en 1.816 € (un 12,6 % del precio). Con un margen del 15 % no se pierde dinero en el 88,3 % de los coches, y con un 16,5 % en el 90 %, ofreciendo al vendedor típico un 83 % del valor de su coche.
+- **La elección del modelo se hizo con criterios de negocio.** Random Forest y XGBoost empatan en las métricas técnicas. Se eligió el Random Forest porque pone menos dinero en riesgo (unos 380.000 € menos de sobrevaloración en test) y acierta más en los coches de 10.000 a 40.000 € y de hasta 3 años, el grueso de las compras.
+- **El precio lo explican sobre todo la antigüedad, el modelo, la potencia y los kilómetros.** El cambio automático suma alrededor de un 10 %; el resto de variables apenas pesa.
+- **La marca importa, pero no como se esperaba.** La alta gama no se deprecia más rápido (H1 refutada): Mercedes-Benz es la que más valor retiene. Entre marcas hay hasta 10 puntos de diferencia en valor retenido (H2 apoyada).
+- **El combustible pesa poco una vez conocido el modelo del coche** (H3 apoyada solo en parte).
+- **El modelo no sustituye a la persona en todos los casos.** Los coches de menos de 5.000 € y los de más de 12 años tienen errores del 22-29 %. Para ellos conviene una revisión manual antes de hacer la oferta.
+
+### Mejoras para una versión futura
+
+- **Datos más recientes.** El dataset termina en enero de 2021; los precios de segunda mano han cambiado mucho desde entonces.
+- **Variables sobre el estado del coche** (revisiones, golpes, ITV, equipamiento), que explicarían buena parte del error en los coches baratos y antiguos.
+- **Costes de preparación reales** para calcular la oferta completa y el beneficio por coche.
+- **Margen variable por tramo:** un margen menor en los coches donde el modelo acierta más y uno mayor (o revisión manual) en los baratos y antiguos.
+- **Más datos de coches eléctricos e híbridos,** que hoy son pocos y el modelo apenas aprende de ellos.
+
+---
+
+## 💬 Uso de la IA
+
+En este proyecto he usado un asistente de IA como apoyo para escribir código, resolver errores y mantener la documentación (README y DECISIONES.md). Las decisiones del proyecto y la revisión de cada resultado son mías. Cuando aparecía algo nuevo para mí (por ejemplo joblib, que no se vio en el máster, o pd.cut), lo pedía explicado y no lo daba por bueno hasta entenderlo; esas explicaciones están en los propios cuadernos.
