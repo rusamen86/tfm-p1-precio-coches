@@ -432,7 +432,7 @@ La oferta no da pérdidas si queda por debajo del precio real del coche. No se i
 
 ## 🚀 Paso a producción
 
-*Pendiente.*
+Para llevar el estimador a un uso real, el código de los cuadernos se pasaría a scripts y el modelo final se guardaría ya entrenado. Ese modelo se serviría mediante una API dentro de un contenedor Docker, y se reentrenaría periódicamente con anuncios nuevos.
 
 ## ✅ Conclusiones y mejoras
 
