@@ -28,7 +28,9 @@ def euros(valor):
 @st.cache_resource
 def cargar_modelo():
     # Random Forest ya entrenado en 04_modelado. No se vuelve a entrenar.
-    return joblib.load(RAIZ / 'models' / 'random_forest.joblib')
+    # Es una copia comprimida del mismo modelo (65 MB en vez de 284 MB),
+    # para que quepa en GitHub y el dashboard funcione también en la web.
+    return joblib.load(RAIZ / 'models' / 'random_forest_app.joblib')
 
 
 @st.cache_data

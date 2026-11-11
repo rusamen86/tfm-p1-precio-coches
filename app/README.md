@@ -13,12 +13,16 @@ Herramienta local en Streamlit para un concesionario ficticio (Seat). Usa el Ran
 ## Qué necesita
 
 - El entorno virtual del proyecto con las dependencias instaladas (`pip install -r requirements.txt` desde la raíz).
-- Tres archivos que generan los cuadernos (los dos primeros no se suben a GitHub):
-  - `models/random_forest.joblib` (04_modelado)
+- Tres archivos, que están en el repositorio:
+  - `models/random_forest_app.joblib`: copia comprimida del Random Forest de 04_modelado
   - `data/processed/coches_limpio.csv` (02_limpieza)
   - `outputs/metricas_random_forest.csv` (04_modelado)
 
-Si faltan, hay que ejecutar antes los cuadernos en orden, como explica el README principal.
+**Sobre la copia comprimida del modelo.** 04_modelado guarda el Random Forest en `models/random_forest.joblib`, que pesa 284 MB y no cabe en GitHub (límite de 100 MB por archivo). El dashboard usa una copia del mismo modelo comprimida con joblib (65 MB), que da exactamente las mismas predicciones. Si se vuelve a entrenar el modelo, hay que regenerar la copia desde la raíz del proyecto:
+
+```bash
+python -c "import joblib; joblib.dump(joblib.load('models/random_forest.joblib'), 'models/random_forest_app.joblib', compress=3)"
+```
 
 ## Cómo arrancarlo
 
@@ -32,6 +36,23 @@ streamlit run app/dashboard.py
 ```
 
 Se abre en http://localhost:8501. Para pararlo, Ctrl + C en la terminal.
+
+## Versión web (Streamlit Community Cloud)
+
+Para que cualquiera pueda usar el dashboard desde el navegador, sin instalar nada, se publica gratis en Streamlit Community Cloud. La app queda pública: la puede abrir cualquiera que tenga el enlace.
+
+1. Subir a GitHub la rama que se quiera publicar (con `git push`), incluidos `models/random_forest_app.joblib` y `data/processed/coches_limpio.csv`.
+2. Entrar en https://share.streamlit.io e iniciar sesión con la cuenta de GitHub.
+3. Pulsar **Create app** y elegir **Yup, I have an app**.
+4. Rellenar:
+   - Repository: `rusamen86/tfm-p1-precio-coches`
+   - Branch: la rama subida en el paso 1
+   - Main file path: `app/dashboard.py`
+   - App URL (opcional): un nombre fácil de recordar
+5. Abrir **Advanced settings** y elegir **Python 3.14**, la versión con la que se ha desarrollado el proyecto (por defecto viene la 3.12). Guardar.
+6. Pulsar **Deploy**. La primera vez tarda unos minutos, porque instala todo `requirements.txt`.
+
+Después, cada `git push` a esa rama actualiza la app sola.
 
 ## Cómo se usa
 
