@@ -13,5 +13,9 @@ data/processed/*
 models/*
 !models/.gitkeep
 
+# Excepción: los dos archivos que necesita el dashboard (app/) para funcionar en la web
+!data/processed/coches_limpio.csv
+!models/random_forest_app.joblib
+
 # Instrucciones locales para Cursor
 AGENTS.md
