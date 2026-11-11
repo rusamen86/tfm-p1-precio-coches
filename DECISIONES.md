@@ -107,6 +107,17 @@ Diario de las decisiones tomadas en el proyecto. Cada entrada recoge **qué se d
 - **Etiquetas del eje de la figura 16 inclinadas** (rotation=30, ha='right'). Motivo: los nombres de los tramos de precio se solapaban.
 - **Borrar las carpetas src/ y scripts/.** Motivo: solo tenían archivos de plantilla sin código; todo el flujo está en los cuadernos.
 
+## 11-11-2026
+
+- **Dashboard local en Streamlit, en app/dashboard.py, para un concesionario ficticio (Seat).** Motivo: enseña el modelo como herramienta de tasación, con el precio estimado, un rango y la oferta de compra. Es una pieza aparte de la hoja de ruta: los cuadernos no se modifican. Streamlit no se vio en el máster: es investigación propia y una aportación del TFM, hecha con apoyo de la IA para llevar el proyecto más allá del temario. Se añade a requirements.txt (streamlit==1.67.0).
+- **Carpeta app/ como apartado propio de la herramienta:** dashboard.py, una guía de uso (app/README.md) y un lanzador de doble clic para macOS (arrancar.command). Motivo: tener la herramienta localizada y poder usarla sin recordar comandos.
+- **El dashboard carga el Random Forest ya entrenado (models/random_forest.joblib) y no reentrena.** El preprocesado no estaba guardado en disco, así que el dashboard repite los pasos de 03_preprocesado sobre coches_limpio.csv: mismo train/test (random_state 42), las 10 marcas más frecuentes en train y el target encoding del modelo ajustado solo con train. Motivo: no tocar los cuadernos. Cifra: en 5 coches de test el dashboard da el mismo precio que el cuaderno.
+- **El formulario pide la antigüedad en años, no el año.** Motivo: el modelo aprendió con age = 2021 − year y precios de enero de 2021; con el año, un coche posterior a 2021 daría una antigüedad negativa.
+- **Rango aproximado: precio estimado ± MAE de test (1.816 €).** Es orientativo, no un intervalo de confianza: en coches baratos es un rango muy ancho.
+- **Oferta con la fórmula del proyecto, con margen y costes ajustables** (15 % y 0 € por defecto). Si la oferta sale a cero o negativa, se muestra 0 € y un mensaje de que no compensa comprar.
+- **Avisos cuando el coche se sale de los datos de entrenamiento:** más de 15 años, más de 940.000 km, potencia fuera de 37-620 CV o modelo que no estaba en train. Además, se recomienda revisión manual si el coche tiene más de 12 años o el precio estimado baja de 5.000 €, como en la Pregunta 12.
+- **Explicación de cada tasación con SHAP en el dashboard.** Se usa el mismo TreeExplainer que en 06_explicabilidad_negocio, pero sobre el coche introducido. Un gráfico de barras muestra cuánto sube o baja el precio cada característica, en porcentaje, partiendo del precio de un coche medio (13.204 €). Las columnas one-hot de combustible y de marca se suman en una sola barra. Motivo: el tasador ve por qué sale ese precio y puede defender la oferta ante el cliente. El cálculo para un coche tarda menos de un segundo.
+
 ---
 
 ## Pendiente
