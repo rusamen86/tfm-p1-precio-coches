@@ -39,7 +39,9 @@ Se abre en http://localhost:8501. Para pararlo, Ctrl + C en la terminal.
 
 ## Versión web (Streamlit Community Cloud)
 
-Para que cualquiera pueda usar el dashboard desde el navegador, sin instalar nada, se publica gratis en Streamlit Community Cloud. La app queda pública: la puede abrir cualquiera que tenga el enlace.
+**Enlace:** https://tasador-coches-ocasion.streamlit.app (publicada desde la rama main).
+
+Para que cualquiera pueda usar el dashboard desde el navegador, sin instalar nada, se publica gratis en Streamlit Community Cloud. La app queda pública: la puede abrir cualquiera que tenga el enlace. Estos son los pasos que se siguieron:
 
 1. Subir a GitHub la rama que se quiera publicar (con `git push`), incluidos `models/random_forest_app.joblib` y `data/processed/coches_limpio.csv`.
 2. Entrar en https://share.streamlit.io e iniciar sesión con la cuenta de GitHub.
