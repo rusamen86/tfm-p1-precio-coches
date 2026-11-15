@@ -1,0 +1,393 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Del anuncio a la tasación · Los datos y lo que cuentan</title>
+<style>
+  @page { size: 13.333in 7.5in; margin: 0; }
+  :root { --azul: #0b3a82; --verde: #0e8f85; --gris: #6b7280; --claro: #f3f5f8; --rojo: #b4372f; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif; color: #111; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .slide { width: 13.333in; height: 7.5in; padding: 0.75in 0.8in 0.6in; position: relative; page-break-after: always; overflow: hidden; display: flex; flex-direction: column; }
+  .slide:last-child { page-break-after: auto; }
+  .marca { position: absolute; top: 0.3in; right: 0.8in; font-size: 11pt; font-weight: 600; }
+  .pie { position: absolute; bottom: 0.28in; left: 0.8in; right: 0.8in; display: flex; justify-content: space-between; font-size: 10pt; color: #9aa1ab; }
+  h1 { font-size: 40pt; line-height: 1.08; margin: 0 0 0.12in; font-weight: 700; letter-spacing: -0.5px; }
+  .sub { font-size: 17pt; color: var(--gris); margin: 0 0 0.3in; max-width: 10.5in; line-height: 1.35; }
+  .cuerpo { flex: 1; display: flex; gap: 0.5in; align-items: center; min-height: 0; }
+  .col { flex: 1; min-width: 0; }
+  .col.fig { flex: 1.35; display: flex; align-items: center; justify-content: center; height: 100%; }
+  .col.fig img { max-width: 100%; max-height: 4.5in; }
+  p, li { font-size: 15pt; line-height: 1.45; color: #333; }
+  p { margin: 0 0 0.16in; }
+  ul { margin: 0; padding-left: 0.25in; }
+  li { margin-bottom: 0.1in; }
+  b { color: #111; }
+  .tarjetas { display: flex; gap: 0.25in; }
+  .tarjeta { flex: 1; padding: 0.24in 0.26in; color: #fff; background: var(--azul); }
+  .tarjeta.v { background: var(--verde); }
+  .tarjeta.c { background: var(--claro); color: #111; }
+  .tarjeta .et { font-size: 11.5pt; font-weight: 600; opacity: 0.92; }
+  .tarjeta .n { font-size: 33pt; font-weight: 700; line-height: 1.15; margin: 0.04in 0; white-space: nowrap; }
+  .tarjeta .d { font-size: 11.5pt; line-height: 1.35; opacity: 0.92; }
+  .tarjeta.c .n { color: var(--azul); }
+  .tarjeta.c .d, .tarjeta.c .et { color: #444; opacity: 1; }
+  .dato { border-left: 3px solid var(--azul); padding-left: 0.2in; margin-bottom: 0.24in; }
+  .dato .n { font-size: 27pt; font-weight: 700; color: var(--azul); line-height: 1.1; }
+  .dato .d { font-size: 13pt; color: #444; line-height: 1.35; }
+  .dato.v { border-color: var(--verde); } .dato.v .n { color: var(--verde); }
+  table { border-collapse: collapse; width: 100%; font-size: 14pt; }
+  th { text-align: right; font-size: 11.5pt; color: var(--gris); font-weight: 600; padding: 0.09in 0.12in; border-bottom: 2px solid #111; }
+  td { text-align: right; padding: 0.11in 0.12in; border-bottom: 1px solid #dde1e7; }
+  th:first-child, td:first-child { text-align: left; }
+  tr.sel td { background: #e8f4f3; font-weight: 700; }
+  .embudo { display: flex; flex-direction: column; gap: 0.1in; width: 100%; }
+  .paso { display: flex; align-items: center; gap: 0.25in; }
+  .barra { height: 0.62in; background: var(--azul); color: #fff; font-weight: 700; font-size: 17pt; display: flex; align-items: center; padding-left: 0.2in; white-space: nowrap; }
+  .barra.v { background: var(--verde); }
+  .paso .t { font-size: 13pt; color: #444; line-height: 1.3; }
+  .nota { font-size: 11.5pt; color: var(--gris); margin-top: 0.14in; }
+  .hip { display: flex; gap: 0.25in; }
+  .hip > div { flex: 1; background: var(--claro); padding: 0.22in 0.24in; border-top: 5px solid var(--azul); }
+  .hip .est { font-size: 11pt; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; }
+  .hip .no { color: var(--rojo); } .hip .si { color: var(--verde); } .hip .med { color: #a56a00; }
+  .hip h3 { font-size: 14.5pt; margin: 0.06in 0 0.1in; line-height: 1.3; }
+  .hip p { font-size: 12.5pt; margin: 0; }
+  .portada { justify-content: center; }
+  .portada h1 { font-size: 58pt; max-width: 10in; }
+  .portada .sub { font-size: 21pt; }
+  .franja { position: absolute; left: 0; top: 0; bottom: 0; width: 0.28in; background: var(--azul); }
+  .dos img { max-height: 3.5in !important; }
+</style>
+</head>
+<body>
+
+<section class="slide portada">
+  <div class="franja"></div>
+  <div class="marca">TFM Proyecto 1</div>
+  <h1>Del anuncio a la tasación</h1>
+  <p class="sub">Los datos de 50.000 anuncios de coches de segunda mano y lo que cuentan sobre el precio.</p>
+  <p style="margin-top:0.3in"><b>Rubén Soria</b> · TFM Máster en Data Science con IA</p>
+  <div class="pie"><span>Datos: muestra gratuita de DataMarket, capturada el 15-01-2021</span><span>1</span></div>
+</section>
+
+<section class="slide">
+  <div class="marca">Del anuncio a la tasación</div>
+  <h1>El encargo</h1>
+  <p class="sub">La sección de vehículos de ocasión de un concesionario Seat (ficticio) necesita saber cuánto ofrecer por cada coche que le traen.</p>
+  <div class="cuerpo">
+    <div class="col">
+      <div class="tarjeta c" style="margin-bottom:0.25in">
+        <div class="et">La fórmula de la oferta</div>
+        <div class="n" style="font-size:19pt; white-space:normal; line-height:1.35">oferta = precio estimado × (1 − margen) − costes de preparación</div>
+      </div>
+      <p>El modelo pone el <b>precio estimado</b>. El margen y los costes los decide el negocio.</p>
+    </div>
+    <div class="col">
+      <div class="dato"><div class="n">Pagar de más</div><div class="d">Si la tasación se pasa, el concesionario pierde dinero al vender el coche.</div></div>
+      <div class="dato v"><div class="n">Quedarse corto</div><div class="d">Si se queda corta, como mucho el cliente se va con su coche.</div></div>
+      <p>El error no pesa igual en los dos sentidos: interesa un modelo prudente.</p>
+    </div>
+  </div>
+  <div class="pie"><span>TFM · Rubén Soria</span><span>2</span></div>
+</section>
+
+<section class="slide">
+  <div class="marca">Del anuncio a la tasación</div>
+  <h1>Los datos</h1>
+  <p class="sub">Anuncios de una plataforma española de coches de segunda mano, con la web de origen anonimizada.</p>
+  <div class="cuerpo" style="flex-direction:column; align-items:stretch; justify-content:center; gap:0.3in">
+    <div class="tarjetas">
+      <div class="tarjeta"><div class="et">Anuncios</div><div class="n">50.000</div><div class="d">con 21 columnas cada uno</div></div>
+      <div class="tarjeta v"><div class="et">Publicados entre</div><div class="n">2017 – 2021</div><div class="d">del 09-05-2017 al 15-01-2021</div></div>
+      <div class="tarjeta c"><div class="et">Lo que se predice</div><div class="n">price</div><div class="d">el precio del anuncio, en euros</div></div>
+    </div>
+    <ul>
+      <li>De cada coche: marca, modelo, versión, año, kilómetros, potencia, combustible, cambio, puertas, color, provincia y tipo de vendedor.</li>
+      <li><b>Son precios de anuncio, no de venta real:</b> lo que pide el vendedor, no lo que se acaba pagando.</li>
+      <li><b>Son de enero de 2021:</b> sirven para aprender el método, no para tasar un coche hoy.</li>
+    </ul>
+  </div>
+  <div class="pie"><span>TFM · Rubén Soria</span><span>3</span></div>
+</section>
+
+<section class="slide">
+  <div class="marca">Del anuncio a la tasación</div>
+  <h1>De 50.000 a 40.614 coches</h1>
+  <p class="sub">Primero se decide a qué coches se aplica el modelo. Después se limpia lo que queda.</p>
+  <div class="cuerpo">
+    <div class="col" style="flex:1.5">
+      <div class="embudo">
+        <div class="paso"><div class="barra" style="width:100%">50.000 anuncios</div></div>
+        <div class="paso"><div class="barra" style="width:81.6%">40.801</div><div class="t">− 9.199 por los cortes</div></div>
+        <div class="paso"><div class="barra" style="width:81.5%">40.741</div><div class="t">− 60 sin potencia ni coches iguales</div></div>
+        <div class="paso"><div class="barra v" style="width:81.2%">40.614 coches</div><div class="t">− 127 con huecos pequeños</div></div>
+      </div>
+      <p class="nota">Se pierde el 18,8 % de los anuncios, casi todo por los cortes de negocio.</p>
+    </div>
+    <div class="col">
+      <p><b>Los cortes son decisiones de negocio</b>, no correcciones de errores:</p>
+      <ul>
+        <li>Precio entre 1.000 € y 100.000 €</li>
+        <li>Coches de 2006 en adelante (hasta 15 años)</li>
+        <li>Hasta 1.000.000 km</li>
+        <li>Hasta 700 CV</li>
+      </ul>
+    </div>
+  </div>
+  <div class="pie"><span>Cuaderno 02_limpieza</span><span>4</span></div>
+</section>
+
+<section class="slide">
+  <div class="marca">Del anuncio a la tasación</div>
+  <h1>El hueco de la potencia</h1>
+  <p class="sub">Lo más difícil de la limpieza: un dato que pesa mucho en el precio y que faltaba en uno de cada seis anuncios.</p>
+  <div class="cuerpo">
+    <div class="col">
+      <div class="dato"><div class="n">8.528 anuncios sin potencia</div><div class="d">El 17 %. No faltaba al azar: eran coches más viejos y baratos (mediana de 3.100 € y año 2005, frente a 13.995 € y 2016).</div></div>
+      <div class="dato"><div class="n">3.842 tras los cortes</div><div class="d">El 9,4 % de los 40.801 coches que quedaban.</div></div>
+    </div>
+    <div class="col">
+      <p><b>Qué se probó y qué se hizo</b></p>
+      <ul>
+        <li><b>Coche gemelo</b> (misma marca, modelo y versión): solo 53 lo tenían. La versión casi nunca describe el motor.</li>
+        <li><b>17 coches</b> tenían la potencia escrita en el texto de la versión, y se tomó de ahí.</li>
+        <li><b>El resto, con la moda</b> de su marca y modelo: un motor real y frecuente. La media o la mediana pueden dar potencias que no existen.</li>
+        <li><b>60 coches eliminados</b>, sin ningún otro igual del que copiar.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="pie"><span>Cuadernos 01_eda y 02_limpieza</span><span>5</span></div>
+</section>
+
+<section class="slide">
+  <div class="marca">Del anuncio a la tasación</div>
+  <h1>Cada año resta un 12 %</h1>
+  <p class="sub">La antigüedad es lo primero que mira un tasador, y los datos le dan la razón.</p>
+  <div class="cuerpo">
+    <div class="col fig"><img src="../outputs/figures/04_mediana_precio_por_anio.png" alt=""></div>
+    <div class="col">
+      <div class="dato"><div class="n">≈ 12 % al año</div><div class="d">12,1 % de media y 12,3 % de mediana.</div></div>
+      <ul>
+        <li>Un coche de 2020 se anuncia a <b>24.990 €</b> de mediana; uno de 2015, a <b>14.425 €</b>; uno de 2010, a <b>7.490 €</b>.</li>
+        <li>Al ser un porcentaje, pierde más euros cuando es nuevo: los dos primeros años caen más de un 17 % cada uno.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="pie"><span>Pregunta 2 · cuaderno 02b_preguntas_eda</span><span>6</span></div>
+</section>
+
+<section class="slide">
+  <div class="marca">Del anuncio a la tasación</div>
+  <h1>Cada 10.000 km, unos 657 €</h1>
+  <p class="sub">Los kilómetros también bajan el precio de forma regular, pero no actúan solos.</p>
+  <div class="cuerpo">
+    <div class="col fig"><img src="../outputs/figures/05_mediana_precio_por_kms.png" alt=""></div>
+    <div class="col">
+      <div class="dato"><div class="n">− 657 €</div><div class="d">de mediana por cada tramo de 10.000 km.</div></div>
+      <ul>
+        <li>Con menos de 10.000 km: <b>23.990 €</b>. Entre 100.000 y 110.000 km: <b>12.700 €</b>.</li>
+        <li><b>Kilómetros y año van muy unidos</b> (correlación de −0,77): parte de esta bajada es en realidad la edad.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="pie"><span>Pregunta 3 · cuaderno 02b_preguntas_eda</span><span>7</span></div>
+</section>
+
+<section class="slide">
+  <div class="marca">Del anuncio a la tasación</div>
+  <h1>La provincia apenas importa</h1>
+  <p class="sub">Esperaba diferencias entre Madrid, Barcelona y las ciudades pequeñas. El precio es bastante más homogéneo.</p>
+  <div class="cuerpo">
+    <div class="col fig"><img src="../outputs/figures/09_mediana_precio_por_provincia.png" alt=""></div>
+    <div class="col">
+      <div class="dato"><div class="n">16 de 22 provincias</div><div class="d">entre 13.500 € y 15.900 € de mediana (las 22 con al menos 500 anuncios).</div></div>
+      <ul>
+        <li>La más cara es Toledo, pero muchos de sus coches recientes son prácticamente km 0: depende de qué se anuncia en cada sitio.</li>
+        <li><b>La excepción son las islas:</b> Las Palmas, Tenerife y Baleares salen siempre entre las más baratas.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="pie"><span>Pregunta 6 · cuaderno 02b_preguntas_eda</span><span>8</span></div>
+</section>
+
+<section class="slide">
+  <div class="marca">Del anuncio a la tasación</div>
+  <h1>No todas las marcas aguantan igual</h1>
+  <p class="sub">Mediana de los coches de 2013-2015 frente a la de los de 2018-2020, en las 15 marcas con más anuncios.</p>
+  <div class="cuerpo">
+    <div class="col fig"><img src="../outputs/figures/06_valor_retenido_por_marca.png" alt=""></div>
+    <div class="col">
+      <div class="dato v"><div class="n">Fiat 63,2 %</div><div class="d">Audi 61,9 % y Volkswagen 60,7 % la siguen.</div></div>
+      <div class="dato"><div class="n">Peugeot 47,6 %</div><div class="d">Renault 48,6 %. La media de las 15 marcas es 55,3 %.</div></div>
+      <p class="nota" style="font-size:12.5pt">Es una primera mirada: dentro de cada marca no se comparan los mismos modelos. Fiat puede salir arriba por coches pequeños como el 500.</p>
+    </div>
+  </div>
+  <div class="pie"><span>Pregunta 4 · cuaderno 02b_preguntas_eda</span><span>9</span></div>
+</section>
+
+<section class="slide">
+  <div class="marca">Del anuncio a la tasación</div>
+  <h1>Combustible, cambio y vendedor</h1>
+  <p class="sub">Medianas del precio en coches de 2018 a 2020, para comparar coches de edad parecida.</p>
+  <div class="cuerpo" style="flex-direction:column; align-items:stretch; justify-content:center; gap:0.28in">
+    <div class="tarjetas">
+      <div class="tarjeta"><div class="et">Combustible</div><div class="n" style="font-size:22pt; white-space:normal; line-height:1.3">Eléctrico 28.500 €<br>Diésel 23.890 €<br>Gasolina 17.900 €</div></div>
+      <div class="tarjeta v"><div class="et">Cambio</div><div class="n" style="font-size:22pt; white-space:normal; line-height:1.3">Automático 30.800 €<br>Manual 17.400 €</div><div class="d">Unos 13.400 € de diferencia.</div></div>
+      <div class="tarjeta c"><div class="et">Vendedor</div><div class="n" style="font-size:22pt; white-space:normal; line-height:1.3">Profesional 20.900 €<br>Particular 21.000 €</div><div class="d">Sin diferencia a igual edad.</div></div>
+    </div>
+    <p>Con todos los años, un profesional anuncia a más del doble que un particular (15.999 € frente a 7.800 €), pero porque vende coches más nuevos y con menos kilómetros. Dominan el diésel (25.469 coches) y la gasolina (12.719); eléctricos solo hay 549.</p>
+  </div>
+  <div class="pie"><span>Preguntas 5 y 7 · cuaderno 02b_preguntas_eda</span><span>10</span></div>
+</section>
+
+<section class="slide">
+  <div class="marca">Del anuncio a la tasación</div>
+  <h1>Tres modelos a prueba</h1>
+  <p class="sub">Entrenados con 32.491 coches y medidos con 8.123 que no habían visto.</p>
+  <div class="cuerpo">
+    <div class="col" style="flex:1.5">
+      <table>
+        <tr><th>Modelo</th><th>MAE</th><th>MAPE</th><th>RMSE</th><th>Error &lt; 15 %</th></tr>
+        <tr><td>Regresión lineal</td><td>2.664 €</td><td>16,8 %</td><td>5.302 €</td><td>58,7 %</td></tr>
+        <tr class="sel"><td>Random Forest</td><td>1.816 €</td><td>12,6 %</td><td>3.372 €</td><td>72,7 %</td></tr>
+        <tr><td>XGBoost</td><td>1.854 €</td><td>12,7 %</td><td>3.248 €</td><td>71,5 %</td></tr>
+      </table>
+      <p class="nota">MAE: error medio en euros. MAPE: error medio en porcentaje. RMSE: penaliza los errores grandes.</p>
+    </div>
+    <div class="col">
+      <p>Random Forest y XGBoost empatan en las métricas. Decide lo que le duele al concesionario: <b>la sobrevaloración</b>.</p>
+      <div class="dato v"><div class="n">380.000 € menos</div><div class="d">en riesgo con el Random Forest: 6,23 M€ sobrevalorados en test frente a 6,61 M€ del XGBoost.</div></div>
+      <p class="nota" style="font-size:12.5pt">La pega: el Random Forest sobreajusta más (670 € de MAE en entrenamiento frente a 1.816 € en prueba).</p>
+    </div>
+  </div>
+  <div class="pie"><span>Cuadernos 04_modelado y 05_evaluacion</span><span>11</span></div>
+</section>
+
+<section class="slide">
+  <div class="marca">Del anuncio a la tasación</div>
+  <h1>Qué mueve el precio</h1>
+  <p class="sub">SHAP sobre 500 coches de prueba: cuánto sube o baja el precio cada característica.</p>
+  <div class="cuerpo">
+    <div class="col fig"><img src="../outputs/figures/19_shap_efecto.png" alt=""></div>
+    <div class="col">
+      <ul>
+        <li><b>La antigüedad manda.</b> Después, el modelo del coche, la potencia y los kilómetros.</li>
+        <li><b>El cambio automático</b> suma alrededor de un 10 %.</li>
+        <li>Vendedor, combustible, puertas y marca pesan muy poco cuando ya se conoce lo anterior.</li>
+      </ul>
+      <p class="nota" style="font-size:12.5pt">Cada punto es un coche. Rojo: valor alto de esa característica. A la derecha sube el precio; a la izquierda lo baja.</p>
+    </div>
+  </div>
+  <div class="pie"><span>Pregunta 8 · cuaderno 06_explicabilidad_negocio</span><span>12</span></div>
+</section>
+
+<section class="slide">
+  <div class="marca">Del anuncio a la tasación</div>
+  <h1>Las tres hipótesis</h1>
+  <p class="sub">Escritas antes de abrir los datos. Comprobadas simulando los mismos coches con 2 y con 8 años, o cambiando solo el combustible.</p>
+  <div class="cuerpo" style="align-items:stretch">
+    <div class="hip" style="width:100%; align-items:stretch">
+      <div>
+        <div class="est no">H1 · Refutada</div>
+        <h3>La alta gama se deprecia más rápido</h3>
+        <p>Audi, BMW y Mercedes-Benz conservan el <b>71,2 %</b> de su valor de 2 a 8 años; el resto de marcas, el <b>70,8 %</b>. Mercedes-Benz es la que más conserva.</p>
+      </div>
+      <div style="border-top-color:var(--verde)">
+        <div class="est si">H2 · Apoyada</div>
+        <h3>Hay marcas que se deprecian menos que la media y otras más</h3>
+        <p>Del <b>64 %</b> de Peugeot al <b>74 %</b> de Mercedes-Benz: diez puntos en coches por lo demás idénticos. Volkswagen, de quien salió la idea, aguanta bien (73 %) sin ser la mejor.</p>
+      </div>
+      <div style="border-top-color:#a56a00">
+        <div class="est med">H3 · Apoyada en parte</div>
+        <h3>Eléctrico &gt; diésel &gt; gasolina</h3>
+        <p>En los datos sí se ve. El modelo da diésel <b>17.288 €</b>, eléctrico <b>16.646 €</b> y gasolina <b>16.265 €</b>: el combustible pesa poco y hay muy pocos eléctricos.</p>
+      </div>
+    </div>
+  </div>
+  <div class="pie"><span>Cuaderno 06_explicabilidad_negocio</span><span>13</span></div>
+</section>
+
+<section class="slide">
+  <div class="marca">Del anuncio a la tasación</div>
+  <h1>Cuánto margen hace falta</h1>
+  <p class="sub">No se pierde dinero en un coche si la oferta queda por debajo de su precio real.</p>
+  <div class="cuerpo">
+    <div class="col fig"><img src="../outputs/figures/21_coches_sin_perdida_por_margen.png" alt=""></div>
+    <div class="col">
+      <div class="dato"><div class="n">15 % → 88,3 %</div><div class="d">de los coches sin pérdida con el margen de partida.</div></div>
+      <div class="dato v"><div class="n">16,5 % → 90 %</div><div class="d">es el margen mínimo para cubrir 9 de cada 10 coches.</div></div>
+      <div class="dato"><div class="n">83,4 %</div><div class="d">del precio real es la oferta mediana con ese margen.</div></div>
+      <p class="nota">No incluye costes de preparación: no hay datos.</p>
+    </div>
+  </div>
+  <div class="pie"><span>Preguntas 11 y 13 · cuaderno 06_explicabilidad_negocio</span><span>14</span></div>
+</section>
+
+<section class="slide">
+  <div class="marca">Del anuncio a la tasación</div>
+  <h1>Dónde no fiarse</h1>
+  <p class="sub">El precio de un coche barato o viejo depende de su estado, y eso no está en los datos.</p>
+  <div class="cuerpo dos">
+    <div class="col fig" style="flex:1"><img src="../outputs/figures/16_error_por_precio.png" alt=""></div>
+    <div class="col fig" style="flex:1"><img src="../outputs/figures/17_error_por_edad.png" alt=""></div>
+  </div>
+  <p style="margin-top:0.1in">El Random Forest falla un <b>29,4 %</b> en coches de menos de 5.000 € y un <b>23,2 %</b> en los de más de 12 años, frente al 9-10 % entre 10.000 y 40.000 €. Esos coches tienen que pasar por una persona antes de hacer la oferta.</p>
+  <div class="pie"><span>Pregunta 12 · cuaderno 05_evaluacion</span><span>15</span></div>
+</section>
+
+<section class="slide">
+  <div class="marca">Del anuncio a la tasación</div>
+  <h1>Del cuaderno a una herramienta</h1>
+  <p class="sub">Un panel en Streamlit para que quien hace la oferta pueda usar el modelo sin abrir un cuaderno.</p>
+  <div class="cuerpo">
+    <div class="col">
+      <div class="tarjeta" style="margin-bottom:0.25in">
+        <div class="et">Publicada en</div>
+        <div class="n" style="font-size:19pt">tasador-coches-ocasion.streamlit.app</div>
+      </div>
+      <p>Se rellenan los datos del coche, el margen y los costes de preparación.</p>
+    </div>
+    <div class="col">
+      <ul>
+        <li><b>Precio estimado</b> y un rango aproximado (± 1.816 €, el error medio).</li>
+        <li><b>Oferta de compra</b> con la fórmula del encargo.</li>
+        <li><b>Por qué sale ese precio:</b> un gráfico que parte de un coche medio y muestra qué sube y qué baja.</li>
+        <li><b>Avisos</b> cuando el coche se sale de lo que el modelo conoce, y revisión manual con más de 12 años o menos de 5.000 €.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="pie"><span>app/dashboard.py</span><span>16</span></div>
+</section>
+
+<section class="slide">
+  <div class="marca">Del anuncio a la tasación</div>
+  <h1>Límites y qué cambiaría</h1>
+  <p class="sub">Sirve como orientación para hacer una oferta, teniendo presentes sus límites.</p>
+  <div class="cuerpo" style="align-items:flex-start">
+    <div class="col">
+      <p><b>Lo que no hace bien</b></p>
+      <ul>
+        <li>Precios de anuncio y de enero de 2021.</li>
+        <li>No sabe nada del estado del coche.</li>
+        <li>Un margen único para todos los coches no es lo ideal.</li>
+        <li>Pocos eléctricos e híbridos.</li>
+        <li>La potencia de 3.725 coches es la más frecuente de su marca y modelo, no un dato real.</li>
+      </ul>
+    </div>
+    <div class="col">
+      <p><b>Para una versión siguiente</b></p>
+      <ul>
+        <li>Un conjunto de datos más grande, más completo y actualizado.</li>
+        <li>Datos del estado: revisiones, golpes, ITV, equipamiento.</li>
+        <li>Costes de preparación reales.</li>
+        <li>Margen distinto por tramo de precio y antigüedad.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="pie"><span>TFM · Rubén Soria</span><span>17</span></div>
+</section>
+
+</body>
+</html>

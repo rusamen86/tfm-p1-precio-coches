@@ -2,6 +2,8 @@
 
 Un modelo que estima a qué precio se puede vender un coche de segunda mano en España a partir de los datos de su anuncio: marca, modelo, antigüedad, kilómetros, potencia, combustible y cambio. Con ese precio y el margen que busca la empresa, calcula cuánto ofrecer a quien viene a vender su coche. Se puede seguir en los cuadernos o probar en una página web: [tasador-coches-ocasion.streamlit.app](https://tasador-coches-ocasion.streamlit.app/).
 
+Para verlo de un vistazo hay dos presentaciones en PDF: [la de los datos](docs/presentacion_datos.pdf), con lo que salió al limpiarlos y explorarlos, y [la de negocio](docs/presentacion_negocio.pdf), más corta y pensada para el concesionario.
+
 ## Por qué este proyecto
 
 Me dedico al sector de la automoción: trabajo en un taller. Desde que empecé el máster, mi idea era aplicar el TFM a lo que hago cada día, que es la gestión de recambios. La marca tiene un sistema automático de reaprovisionamiento que decide qué piezas pedir según su coste y sus ventas, y yo quería evaluarlo: comprobar si funciona tan bien como parece o si, como sospecho, tira más a beneficio de la marca que del taller.
@@ -237,7 +239,7 @@ tfm-p1-precio-coches/
 ├── data/
 │   ├── raw/          # el CSV original, sin tocar
 │   └── processed/    # datos limpios (solo se sube coches_limpio.csv)
-├── docs/             # presentación de negocio en PDF
+├── docs/             # las dos presentaciones en PDF
 ├── models/           # modelos entrenados (solo se sube la copia comprimida para la app)
 ├── notebooks/        # un cuaderno por fase
 ├── outputs/          # tablas de métricas y figuras
