@@ -49,7 +49,7 @@ Diario de las decisiones tomadas en el proyecto. Cada entrada recoge **qué se d
 - **Los 99.999 km exactos se anotan como limitación.** Motivo: pueden ser un relleno, pero no se puede reconstruir el dato. Cifra: 19 anuncios.
 - **Los cortes se aplican en 02_limpieza, al principio.** Motivo: no corrigen errores; definen a qué coches se aplica el modelo, y aplicarlos primero evita limpiar o rellenar coches que luego se van a quitar. (Al principio se pensaron para 03_preprocesado.)
 - **Probar a predecir log(price).** Motivo: el precio tiene mucha cola a la derecha; la asimetría pasa de 6,6 a −0,5 con el logaritmo. Además, la depreciación es exponencial y en log baja casi en línea recta.
-- **Depreciación de referencia: 11-12 % por año de antigüedad** (media 11,3 %, mediana 12,4 %). Es la "media" contra la que se comparan H1 y H2.
+- **Depreciación de referencia: alrededor de un 12 % por año de antigüedad** (media 12,1 %, mediana 12,3 %, con el dataset limpio en 02b_preguntas_eda). Es la "media" contra la que se comparan H1 y H2.
 - **Sesgo de supervivencia en coches de más de 20 años.** Con esa edad solo siguen a la venta los bien conservados o apreciados, y hay menos anuncios. Por eso de 2001 a 2000 el precio sube un 8,1 % y la depreciación deja de ser fiable.
 - **Antigüedad hasta 15 años (year de 2006 en adelante).** Decisión de negocio: la empresa se centra en coches de 0 a 15 años, donde la caída es clara y predecible. Cifra: se pierden 7.979 anuncios (16,4 % del rango 1.000-100.000 €).
 - **Figuras del EDA en outputs/figures** (con plt.savefig) y enlazadas en el README.
@@ -65,7 +65,7 @@ Diario de las decisiones tomadas en el proyecto. Cada entrada recoge **qué se d
 
 - **Nuevo cuaderno 02b_preguntas_eda** (se creó como 01b y después se renombró a 02b, porque trabaja con el dataset limpio de 02_limpieza). Las preguntas e hipótesis salen de 01_eda a un cuaderno propio. Motivo: 01_eda se queda con la revisión de los datos y 02b con las preguntas 1-7 y la primera validación de H1-H3, así cada cuaderno es más corto y fácil de seguir.
 - **La comprobación de gemelos de potencia pasa a 02_limpieza.** Motivo: es la base del tratamiento de los nulos de power (moda de marca + modelo y eliminar los que no tienen gemelo), que se aplica en la limpieza.
-- **Kilómetros (Pregunta 3): cada 10.000 km restan unos 656 € de mediana** (≈ 2,7 % del precio del primer tramo), con la bajada más fuerte en los primeros 10.000 km. Kilómetros y año están muy relacionados (correlación −0,77), así que parte de la bajada es por edad.
+- **Kilómetros (Pregunta 3): cada 10.000 km restan unos 657 € de mediana** (≈ 2,7 % del precio del primer tramo), con la bajada más fuerte en los primeros 10.000 km. Kilómetros y año están muy relacionados (correlación −0,77), así que parte de la bajada es por edad.
 
 ## 16-10-2026
 
