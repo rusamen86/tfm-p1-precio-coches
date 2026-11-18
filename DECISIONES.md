@@ -121,10 +121,3 @@ Diario de las decisiones tomadas en el proyecto. Cada entrada recoge **qué se d
 - **Copia comprimida del modelo para el dashboard: models/random_forest_app.joblib** (joblib con compress=3). Motivo: el modelo original pesa 284 MB y GitHub no admite archivos de más de 100 MB; la copia pesa 65 MB. Cifra: da predicciones idénticas en los 8.123 coches de test. El cuaderno 04 no se modifica; si se reentrena, la copia se regenera con el comando de app/README.md.
 - **Se suben a GitHub dos archivos que antes no se subían:** la copia comprimida del modelo y data/processed/coches_limpio.csv, con una excepción en .gitignore. Motivo: sin ellos el dashboard no puede funcionar en la web. El resto de data/processed y models sigue sin subirse.
 
----
-
-## Pendiente
-
-- Sección de producción en el README, tras las clases del 23-10.
-- "Cómo ejecutar" y sección de dificultades en el README.
-- Repaso final del README y del esquema del flujo.
